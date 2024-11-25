@@ -13,93 +13,9 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
-
-
-class CSVObject{
-    public String city;
-    public String street;
-    public Integer house;
-    public Integer floor;
-    CSVObject(String[] arr) {
-        city = arr[0];
-        street = arr[1];
-        house = Integer.parseInt(arr[2]);
-        floor = Integer.parseInt(arr[3]);
-    }
-    CSVObject(Element eElement){
-        city = eElement.getAttribute("city");
-        street = eElement.getAttribute("street");
-        house = Integer.parseInt(eElement.getAttribute("house"));
-        floor = Integer.parseInt(eElement.getAttribute("floor"));
-    }
-
-    public String toStringCSVObject(){
-        String tempStr;
-        tempStr=city+" "+street+" "+house.toString()+" "+floor.toString();
-        return tempStr;
-    }
-    public boolean equals(CSVObject o)
-    {
-        if (this==o){
-            return true;
-        } else if (!Objects.equals(this.city, o.city)) {
-            return false;
-        }else if (!Objects.equals(this.street, o.street)) {
-            return false;
-        }else if (!Objects.equals(this.floor, o.floor)) {
-            return false;
-        }else if (!Objects.equals(this.house, o.house)) {
-            return false;
-        }else{
-            return true;
-        }
-
-    }
-}
-
-class CityInfo {
-    public Integer onefloor;
-    public Integer twofloor;
-    public Integer threefloor;
-    public Integer fourfloor;
-    public Integer fivefloor;
-    CityInfo(){
-        onefloor=0;
-        twofloor=0;
-        threefloor=0;
-        fourfloor=0;
-        fivefloor=0;
-    }
-    void Append(Integer i){
-        if(i==1){
-            this.onefloor++;
-        } else if (i==2) {
-            this.twofloor++;
-        } else if (i==3) {
-            this.threefloor++;
-        }else if(i==4){
-            this.fourfloor++;
-        } else if (i==5) {
-            this.fivefloor++;
-        }
-    }
-    public String toString(){
-        String temp= " 1 Этаж:" + onefloor+" 2 Этажа:" + twofloor+" 3 Этажа:" + threefloor+" 4 Этажа:" + fourfloor+" 5 Этажей:" + fivefloor;
-        return temp;
-    }
-
-
-}
-
-
-
-
-
-
 class DataSet{
     HashMap<String, CSVObject> UniqueValues;
     HashMap<String, Integer> Duplicates;
@@ -113,6 +29,11 @@ class DataSet{
             cheklink = link.substring(link.length() - 4);
         }else{
             cheklink="error";
+        }
+        File TestFile = new File(link);
+        if(!TestFile.exists()) {
+            cheklink="error";
+            System.out.println("Файл не найден");
         }
         if(cheklink.equals(".csv")){
             System.out.println("Файл типа csv");
